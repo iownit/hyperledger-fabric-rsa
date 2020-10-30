@@ -75,6 +75,20 @@ func TestAESKeyGenerator(t *testing.T) {
 	assert.Equal(t, len(aesK.privKey), 32)
 }
 
+func TestRSAKeyGenerator(t *testing.T) {
+	t.Parallel()
+
+	kg := &rsaKeyGenerator{length: 512}
+
+	k, err := kg.KeyGen(nil)
+	assert.NoError(t, err)
+
+	rsaK, ok := k.(*rsaPrivateKey)
+	assert.True(t, ok)
+	assert.NotNil(t, rsaK.privKey)
+	assert.Equal(t, rsaK.privKey.N.BitLen(), 512)
+}
+
 func TestAESKeyGeneratorInvalidInputs(t *testing.T) {
 	t.Parallel()
 
@@ -84,3 +98,4 @@ func TestAESKeyGeneratorInvalidInputs(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "Len must be larger than 0")
 }
+

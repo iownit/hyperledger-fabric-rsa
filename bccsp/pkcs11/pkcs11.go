@@ -9,6 +9,7 @@ package pkcs11
 import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
+	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/asn1"
@@ -194,6 +195,8 @@ func (csp *impl) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (k bccsp.K
 		switch pk.(type) {
 		case *ecdsa.PublicKey:
 			return csp.KeyImport(pk, &bccsp.ECDSAGoPublicKeyImportOpts{Temporary: opts.Ephemeral()})
+		case *rsa.PublicKey:
+			return csp.KeyImport(pk, &bccsp.RSAGoPublicKeyImportOpts{Temporary: opts.Ephemeral()})
 		default:
 			return nil, errors.New("Certificate's public key type not recognized. Supported keys: [ECDSA]")
 		}

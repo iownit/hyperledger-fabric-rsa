@@ -20,6 +20,7 @@ type config struct {
 	ellipticCurve elliptic.Curve
 	hashFunction  func() hash.Hash
 	aesBitLength  int
+	rsaBitLength int
 }
 
 func (conf *config) setSecurityLevel(securityLevel int, hashFamily string) (err error) {
